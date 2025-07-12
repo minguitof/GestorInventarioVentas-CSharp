@@ -1,0 +1,16 @@
+# Directorios de compilación y salida
+/bin/
+/obj/
+
+# Archivos de Visual Studio
+.vs/
+*.suo
+*.user
+*.csproj.user
+*.sln.docstates
+
+# Archivos de registro
+*.log
+
+# Otros, si los llegaras a tener
+[Dd]ata/ # Para ignorar una carpeta 'data' o 'Data'
