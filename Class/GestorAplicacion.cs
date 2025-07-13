@@ -38,11 +38,15 @@ namespace ConsoleGestorInventariosVentas.Class
                         ActualizarStockProducto();
                         break;
                     case "3":
-                        ListarTodosProductos();
+                        ActualizarPriceProducto();
                         break;
                     case "4":
+                        ListarTodosProductos();
+                        break;
+                    case "5":
                         Console.WriteLine("Saliendo de la aplicación...");
                         salir = true;
+                        break;
                         break;
                     default:
                         Console.WriteLine("Opción no valida, intente nuevamente. ");
@@ -66,8 +70,10 @@ namespace ConsoleGestorInventariosVentas.Class
 
             Console.WriteLine("1. Agregar un nuevo producto");
             Console.WriteLine("2. Actualizar Stock del producto");
-            Console.WriteLine("3. Ver Inventario");
-            Console.WriteLine("4. Salir");
+            Console.WriteLine("3. Actualizar Precio del producto");
+            Console.WriteLine("4. Ver Inventario");
+            Console.WriteLine("5. Salir");
+
 
             Console.ForegroundColor = ConsoleColor.Yellow; // cambio de color a amarillo
             Console.Write("\nSelecciona una opción:  ");
@@ -165,13 +171,10 @@ namespace ConsoleGestorInventariosVentas.Class
                         else
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("❌ Fecha de caducidad inválida. Por favor, ingrese en formato YYYY-MM-DD.");
+                            Console.WriteLine("\n❌ Fecha de caducidad inválida. Por favor, ingrese en formato YYYY-MM-DD.\n");
                             Console.ResetColor();
                         }   
                     }
-
-                   
-                    
 
                     nuevoProducto = new ProductoAlimenticio(id, name, price, stock, fechaCaducidad);
                     break;
@@ -213,7 +216,10 @@ namespace ConsoleGestorInventariosVentas.Class
             Console.Write("ID del producto a actualizar: ");
             string id = Console.ReadLine();
 
-            Console.Write("Cantidad a añadir/restar (Ej: 5 para añadir, -2 para restar): ");
+            Console.Write("Cantidad a añadir/restar");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(" (Ej: 5 para añadir, -2 para restar): ");
+            Console.ResetColor();
             int cantidad;
 
             if (!int.TryParse(Console.ReadLine(), out cantidad))
@@ -222,6 +228,30 @@ namespace ConsoleGestorInventariosVentas.Class
                 return;
             }
             _inventario.ActualizarStock(id, cantidad);
+        }
+
+        private void ActualizarPriceProducto()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n --- Actualizar Precio --- \n");
+            Console.ResetColor();
+
+            Console.Write("ID del producto a actualizar: ");
+            string id = Console.ReadLine();
+
+            Console.Write("Precio a modificar");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(" (Ej: 5000, 2500, etc...):  ");
+            Console.ResetColor();
+            int cantidad;
+
+            if(!int.TryParse(Console.ReadLine(),out cantidad))
+            {
+                Console.WriteLine("Cantidad invalidad, intente nuevamente ingresar un nuevo entero");
+                return;
+            }
+
+            _inventario.ActualizarPrice(id, cantidad);
         }
 
         private void ListarTodosProductos()
@@ -234,7 +264,9 @@ namespace ConsoleGestorInventariosVentas.Class
 
             if (productos.Count == 0)
             {
-                Console.Write("El inventario esta vacio.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("El inventario esta vacio.\n");
+                Console.ResetColor();
                 return;
             }
 

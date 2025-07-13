@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestorInventariosVentas
+namespace ConsoleGestorInventariosVentas.Class
 {
     public class Inventario
     {
@@ -42,7 +42,7 @@ namespace GestorInventariosVentas
             {
                 producto.Stock += cantidad;
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"\nStock de {producto.Name} actualizado a {producto.Stock}");
+                Console.WriteLine($"\nStock de {producto.Name} ha sido actualizado a {producto.Stock}");
                 Console.ResetColor();
             }
             else
@@ -53,6 +53,23 @@ namespace GestorInventariosVentas
             }
         }
 
+        public void ActualizarPrice(string idProducto, int cantidad)
+        {
+            Producto producto = BuscarProcutoPorID(idProducto);
+            if (producto != null)
+            {
+                producto.Price = cantidad;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"\nPrecio de {producto.Name} ha sido actualizado a {producto.Price}");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error: producto con ID `{idProducto}` no encontrado.");
+                Console.ResetColor();
+            }
+        }
 
         public List<Producto> ObtenerTodosLosProductos()
         {
