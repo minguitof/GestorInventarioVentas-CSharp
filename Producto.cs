@@ -25,7 +25,7 @@ namespace GestorInventariosVentas
         // Método para mostrar información del producto (lo sobreescribiremos en clases hijas)
         public virtual void MostrarDetalles()
         {
-            Console.WriteLine($"ID: {Id}, nombre {Name}, Precio: {Price:C}, Stock: {Stock}");
+            Console.WriteLine($"ID: {Id}\nNombre: {Name}\nPrecio: {Price:C}\nStock: {Stock}\n");
         }
 
     }

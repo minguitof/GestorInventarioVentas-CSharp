@@ -19,7 +19,7 @@ namespace GestorInventariosVentas
         public override void MostrarDetalles() // Aquí usamos 'override' para sobreescribir el método del padre
         {
             base.MostrarDetalles(); // Llama al método del padre para mostrar los detalles comunes
-            Console.WriteLine($" Fecha de Caducidad: {FechaCaducidad.ToShortDateString()}");
+            Console.WriteLine($"Fecha de Caducidad: {FechaCaducidad.ToShortDateString()}");
         }
 
     }

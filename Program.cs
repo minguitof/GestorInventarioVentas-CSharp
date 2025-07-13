@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using GestorInventariosVentas; // Asegúrate de que tu namespace sea el correcto
+using GestorInventariosVentas;
 
 
 namespace GestorInventariosVentas

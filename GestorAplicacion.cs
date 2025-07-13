@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,73 +47,149 @@ namespace GestorInventariosVentas
                         Console.WriteLine("Opción no valida, intente nuevamente. ");
                         break;
                 }
-                Console.WriteLine("\n Presione cualquier tecla para continuar");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\nPresione cualquier tecla para continuar");
+                Console.ResetColor();
                 Console.ReadKey();
+
             }
         }
 
         private void MostrarMenu()
         {
-            Console.Clear(); //Limpiar la consola para un efecto más limpio
-            Console.WriteLine("--- Gestor de Inventario y Ventas --- ");
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Green; // cambio de color a verde
+            Console.WriteLine("--- Gestor de Inventario y Ventas --- \n");
+            Console.ResetColor();
+
             Console.WriteLine("1. Agregar un nuevo producto");
             Console.WriteLine("2. Actualizar Stock del producto");
             Console.WriteLine("3. Ver Inventario");
             Console.WriteLine("4. Salir");
-            Console.Write("Selecciona una opción:  ");
+
+            Console.ForegroundColor = ConsoleColor.Yellow; // cambio de color a amarillo
+            Console.Write("\nSelecciona una opción:  ");
+            Console.ResetColor();
         }
 
         public void AgregarNuevoProducto()
         {
-            Console.WriteLine("--- Agregar un nuevo producto ---");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n--- Agregar un nuevo producto ---\n");
+            Console.ResetColor();
+
+
             Console.Write("ID del producto: ");
             string id = Console.ReadLine();
             Console.Write("Nombre del producto: ");
             string name = Console.ReadLine();
-            Console.Write("Precio: ");
+            
             // Aquí es donde empezaremos a pensar en el manejo de excepciones
             decimal price;
 
-            if (!decimal.TryParse(Console.ReadLine(), out price))
+            // Bucle para solicitar el precio hasta que sea válido
+            while (true)
             {
-                Console.WriteLine("Precio invalido. Por favor ingrese un número");
-                return;
+                Console.Write("Precio: ");
+                if (decimal.TryParse(Console.ReadLine(), out price))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("❌ Precio inválido. Por favor, ingrese un número válido.");
+                    Console.ResetColor();
+
+                }
             }
-            Console.Write("Stock inicial: ");
+
+
+            // --- Manejo de Stock ---
             int stock;
 
-            if (!int.TryParse(Console.ReadLine(), out stock))
+            while (true) 
             {
-                Console.WriteLine("Stock invalido. Por Favor ingrese un número entero");
-                return;
+                Console.Write("Stock inicial: ");
+                if (int.TryParse(Console.ReadLine(), out stock))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Stock invalido. Por Favor ingrese un número entero");
+                    Console.ResetColor();
+                }
             }
 
-            Console.Write("Tipo de producto (A: Alimenticio, E: Eléctronico, O: Otro): ");
-            string tipo = Console.ReadLine().ToUpper();
+
+            // --- Manejo del Tipo de Producto ---
+            string tipo;
+            // Bucle para solicitar el tipo de producto hasta que sea una opción válida
+
+            while(true)
+            {
+                Console.Write("Tipo de producto (A: Alimenticio, E: Eléctronico, O: Otro): ");
+                tipo = Console.ReadLine().ToUpper();
+
+
+                if (tipo == "A" || tipo == "E" || tipo=="O")
+                {
+                    break;
+                }
+                else 
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("❌ Tipo de producto inválido. Por favor, seleccione 'A', 'E' u 'O'.");
+                    Console.ResetColor();
+                }
+            }
 
             Producto nuevoProducto;
 
             switch (tipo)
             {
                 case "A":
-                    Console.Write("Fecha de caducidad (YYYY-MM-DD): ");
                     DateTime fechaCaducidad;
 
-                    if (!DateTime.TryParse(Console.ReadLine(), out fechaCaducidad))
+                    while(true)
                     {
-                        Console.WriteLine("Fecha de caducidad invalida: ");
-                        return;
+                        Console.Write("Fecha de caducidad (YYYY-MM-DD): ");
+                        if (DateTime.TryParse(Console.ReadLine(), out fechaCaducidad))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("❌ Fecha de caducidad inválida. Por favor, ingrese en formato YYYY-MM-DD.");
+                            Console.ResetColor();
+                        }   
                     }
+
+                   
+                    
+
                     nuevoProducto = new ProductoAlimenticio(id, name, price, stock, fechaCaducidad);
                     break;
                 case "E":
-                    Console.Write("Meses de Garantia: ");
                     int mesesGarantia;
 
-                    if (!int.TryParse(Console.ReadLine(), out mesesGarantia))
+                    while(true)
                     {
-                        Console.WriteLine("Meses de Gatantia invalidos");
-                        return;
+                        Console.Write("Meses de Garantia: ");
+                        if (!int.TryParse(Console.ReadLine(), out mesesGarantia))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("❌ Meses de Garantía inválidos. Por favor, ingrese un número entero.");
+                            Console.ResetColor();
+                        }
                     }
                     nuevoProducto = new ProductoElectronico(id, name, price, stock, mesesGarantia);
                     break;
@@ -121,11 +198,17 @@ namespace GestorInventariosVentas
                     break;
             }
             _inventario.AgregarProducto(nuevoProducto);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\n✅ Producto '{name}' agregado con éxito.\n");
+            Console.ResetColor();
         }
 
         private void ActualizarStockProducto()
         {
-            Console.WriteLine("\n --- Actualizar Stock --- ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n --- Actualizar Stock --- \n");
+            Console.ResetColor();
+
             Console.Write("ID del producto a actualizar: ");
             string id = Console.ReadLine();
 
@@ -142,7 +225,10 @@ namespace GestorInventariosVentas
 
         private void ListarTodosProductos()
         {
-            Console.WriteLine("\n --- Inventario actual --- ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n --- Inventario actual --- \n");
+            Console.ResetColor();
+
             List<Producto> productos = _inventario.ObtenerTodosLosProductos();
 
             if (productos.Count == 0)
@@ -154,6 +240,9 @@ namespace GestorInventariosVentas
             foreach (var p in productos)
             {
                 p.MostrarDetalles(); // Aquí el polimorfismo entra en juego, cada producto sabe cómo mostrarse
+                Console.ForegroundColor= ConsoleColor.Green;
+                Console.Write("========================================================\n");
+                Console.ResetColor();
             }
 
         }

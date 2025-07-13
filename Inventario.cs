@@ -41,11 +41,15 @@ namespace GestorInventariosVentas
             if (producto != null)
             {
                 producto.Stock += cantidad;
-                Console.WriteLine($"Stock de {producto.Name} actualizado a {producto.Stock}");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"\nStock de {producto.Name} actualizado a {producto.Stock}");
+                Console.ResetColor();
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Error: producto con ID `{idProducto}` no encontrado.");
+                Console.ResetColor();
             }
         }
 
